@@ -279,6 +279,7 @@
       <button class="nav-btn active" data-screen="screen-brand">品牌竞争页</button>
       <button class="nav-btn" data-screen="screen-track">赛道机会页</button>
       <button class="nav-btn" data-screen="screen-exec">运营执行页</button>
+      <button class="nav-btn" data-screen="screen-sku">核心单品竞对页</button>
     </div>
 
     <div id="screen-brand" class="screen active">
@@ -442,6 +443,32 @@
             </thead>
             <tbody id="bundle-table"></tbody>
           </table>
+        </section>
+      </div>
+    </div>
+
+    <div id="screen-sku" class="screen">
+      <div class="grid">
+        <section class="panel span-12">
+          <h2>核心单品竞对分析</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>品牌</th>
+                <th>核心单品</th>
+                <th>赛道代理</th>
+                <th>竞对 1</th>
+                <th>竞对 2</th>
+                <th>竞对 3</th>
+              </tr>
+            </thead>
+            <tbody id="sku-competition-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-12">
+          <h2>重点说明</h2>
+          <div class="finding-list" id="sku-notes"></div>
         </section>
       </div>
     </div>
@@ -650,6 +677,35 @@
         <td>${(item.top_products || []).join(' / ')}</td>
       `;
       bundleTable.appendChild(tr);
+    });
+
+    const skuCompetitionTable = document.getElementById('sku-competition-table');
+    const skuNotes = document.getElementById('sku-notes');
+    (payload.core_sku_competition?.brands || []).forEach(item => {
+      (item.core_skus || []).forEach(sku => {
+        const comps = sku.recommended_competitors || [];
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${item.brand}</td>
+          <td>${sku.sku_group}</td>
+          <td>${sku.track_proxy || '-'}</td>
+          <td>${comps[0] ? `${comps[0].brand}<br><span style="color:var(--muted);font-size:12px;">${comps[0].price_band || ''}</span>` : '-'}</td>
+          <td>${comps[1] ? `${comps[1].brand}<br><span style="color:var(--muted);font-size:12px;">${comps[1].price_band || ''}</span>` : '-'}</td>
+          <td>${comps[2] ? `${comps[2].brand}<br><span style="color:var(--muted);font-size:12px;">${comps[2].price_band || ''}</span>` : '-'}</td>
+        `;
+        skuCompetitionTable.appendChild(tr);
+
+        if (sku.status === 'pending_deeper_live_capture') {
+          const note = document.createElement('div');
+          note.className = 'finding judgment';
+          note.innerHTML = `
+            <div class="title">${item.brand} / ${sku.sku_group} 仍需继续深挖</div>
+            <div class="detail">${sku.why || '该单品当前通过近邻赛道代理和竞对样本判断，后续需要继续补最深层实盘数据。'}</div>
+            <div class="source">状态：待补更深实盘采集</div>
+          `;
+          skuNotes.appendChild(note);
+        }
+      });
     });
 
     const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
