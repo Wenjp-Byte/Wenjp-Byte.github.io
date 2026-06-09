@@ -1,0 +1,668 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>化妆护肤市场机会洞察</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fff9f0;
+      --card: #fffdf8;
+      --ink: #1f1a14;
+      --muted: #6e6457;
+      --line: #e6d8c4;
+      --accent: #b3541e;
+      --accent-2: #215a4f;
+      --accent-3: #c98b2a;
+      --shadow: 0 14px 40px rgba(70, 43, 13, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(201, 139, 42, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(33, 90, 79, 0.14), transparent 24%),
+        linear-gradient(180deg, #f8f4ec 0%, var(--bg) 100%);
+    }
+    .page { max-width: 1500px; margin: 0 auto; padding: 28px; }
+    .hero {
+      background: linear-gradient(135deg, rgba(33, 90, 79, 0.94), rgba(179, 84, 30, 0.9));
+      color: #fff;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.82;
+      margin-bottom: 8px;
+    }
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.12;
+      font-weight: 800;
+    }
+    .hero p {
+      max-width: 1000px;
+      margin: 14px 0 0;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+    .meta {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 6px;
+    }
+    .nav-btn {
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .nav-btn.active {
+      background: var(--accent-2);
+      color: #fff;
+      border-color: var(--accent-2);
+    }
+    .screen { display: none; }
+    .screen.active { display: block; }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+    .panel h2 { margin: 0 0 12px; font-size: 20px; }
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .kpi .label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+    .kpi .value { font-size: 28px; font-weight: 800; line-height: 1; }
+    .kpi .sub { margin-top: 8px; font-size: 12px; color: var(--muted); }
+    .finding-list { display: grid; gap: 12px; }
+    .finding {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+    .finding.fact { border-left-color: var(--accent-2); }
+    .finding.judgment { border-left-color: var(--accent-3); }
+    .finding .title { font-weight: 700; margin-bottom: 6px; }
+    .finding .detail { font-size: 14px; line-height: 1.65; color: var(--muted); }
+    .finding .source { margin-top: 8px; font-size: 12px; color: var(--accent); font-weight: 700; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .priority {
+      font-weight: 800;
+      border-radius: 999px;
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #fff;
+    }
+    .p-s { background: #874f11; }
+    .p-a { background: #1f6b5f; }
+    .p-b { background: #8a6f21; }
+    .bars { display: grid; gap: 12px; }
+    .bar-row {
+      display: grid;
+      grid-template-columns: 170px 1fr 86px;
+      align-items: center;
+      gap: 12px;
+    }
+    .bar-label { font-size: 13px; font-weight: 700; }
+    .bar-track {
+      height: 14px;
+      background: #efe5d7;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+    .bar-value {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+    .brand-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .brand-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+    .brand-head .name { font-size: 18px; font-weight: 800; }
+    .brand-head .category { font-size: 12px; color: var(--muted); font-weight: 700; }
+    .mini-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .mini-kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+    .mini-kpi .label { font-size: 11px; color: var(--muted); }
+    .mini-kpi .value { margin-top: 6px; font-size: 16px; font-weight: 800; }
+    .watch {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .watch span {
+      background: #efe3d2;
+      color: #53381f;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+    .footer-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+    @media (max-width: 1200px) {
+      .span-8, .span-6, .span-4 { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .matrix { grid-template-columns: 1fr; }
+      .mini-kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 720px) {
+      .page { padding: 16px; }
+      h1 { font-size: 26px; }
+      .kpis { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 1fr; }
+      .mini-kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">Market Opportunity Dashboard</div>
+      <h1>化妆护肤市场机会洞察</h1>
+      <p>围绕品牌竞争、赛道机会、运营执行三层结构，沉淀可直接用于商品企划、投放协同与管理层复盘的行业洞察网页。</p>
+      <div class="meta" id="meta-tags"></div>
+    </section>
+
+    <div class="nav-tabs">
+      <button class="nav-btn active" data-screen="screen-brand">品牌竞争页</button>
+      <button class="nav-btn" data-screen="screen-track">赛道机会页</button>
+      <button class="nav-btn" data-screen="screen-exec">运营执行页</button>
+    </div>
+
+    <div id="screen-brand" class="screen active">
+      <div class="grid">
+        <section class="panel span-12">
+          <h2>管理层速览</h2>
+          <div class="kpis" id="top-kpis"></div>
+        </section>
+
+        <section class="panel span-6">
+          <h2>重点结论</h2>
+          <div class="finding-list" id="finding-list"></div>
+        </section>
+
+        <section class="panel span-6">
+          <h2>品牌竞争摘要</h2>
+          <div class="bars" id="brand-bars"></div>
+        </section>
+
+        <section class="panel span-12">
+          <h2>品牌竞争矩阵</h2>
+          <div class="matrix" id="brand-matrix"></div>
+        </section>
+
+        <section class="panel span-12">
+          <h2>品牌竞争增强版</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>品牌</th>
+                <th>定位</th>
+                <th>GMV</th>
+                <th>客单</th>
+                <th>同带宽对标</th>
+                <th>升级对标</th>
+                <th>重点盯盘赛道</th>
+              </tr>
+            </thead>
+            <tbody id="brand-enhanced-table"></tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+
+    <div id="screen-track" class="screen">
+      <div class="grid">
+        <section class="panel span-8">
+          <h2>赛道矩阵</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>赛道</th>
+                <th>GMV</th>
+                <th>客单</th>
+                <th>品牌数</th>
+                <th>视频数</th>
+                <th>直播数</th>
+                <th>优先级</th>
+                <th>执行焦点</th>
+              </tr>
+            </thead>
+            <tbody id="track-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-4">
+          <h2>赛道拥挤度</h2>
+          <div class="bars" id="track-bars"></div>
+        </section>
+
+        <section class="panel span-12">
+          <h2>参考品牌池</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>品牌</th>
+                <th>主营</th>
+                <th>GMV</th>
+                <th>销量</th>
+                <th>客单</th>
+              </tr>
+            </thead>
+            <tbody id="ref-table"></tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+
+    <div id="screen-exec" class="screen">
+      <div class="grid">
+        <section class="panel span-12">
+          <h2>赛道运营执行表</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>赛道</th>
+                <th>渠道贡献提示</th>
+                <th>销量结构</th>
+                <th>GMV结构</th>
+                <th>规格/货组信号</th>
+                <th>执行焦点</th>
+              </tr>
+            </thead>
+            <tbody id="execution-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-12">
+          <h2>品牌商品策略建议</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>品牌</th>
+                <th>核心定位</th>
+                <th>推荐赛道</th>
+                <th>产品形态</th>
+                <th>内容方向</th>
+              </tr>
+            </thead>
+            <tbody id="strategy-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-6">
+          <h2>渠道贡献专题</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>赛道</th>
+                <th>赛道判断</th>
+              </tr>
+            </thead>
+            <tbody id="channel-track-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-6">
+          <h2>品牌渠道判断</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>品牌</th>
+                <th>渠道判断</th>
+              </tr>
+            </thead>
+            <tbody id="channel-brand-table"></tbody>
+          </table>
+        </section>
+
+        <section class="panel span-12">
+          <h2>价格带与货组专题</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>赛道</th>
+                <th>客单带</th>
+                <th>规格信号</th>
+                <th>货组/礼盒信号</th>
+                <th>TOP 商品信号</th>
+              </tr>
+            </thead>
+            <tbody id="bundle-table"></tbody>
+          </table>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    window.DASHBOARD_DATA = {"meta":{"report_name":"化妆护肤市场机会洞察","generated_at":"2026-06-09 Asia/Shanghai","source_scope":["BigDataVoice","蝉妈妈","国家统计局","国家药监局","行业与研究资料"],"status":"usable_final_v1"},"brand_competition_matrix":[{"brand":"KAZOO","positioning":"中高客单功能护理升级型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"10w-25w","avg_price_band":"100-200","goods_count":109,"video_count":2015,"live_count":951,"creator_count":526,"shop_count":5,"same_band_benchmarks":["PETERSON\u0027S LAB/毕生之研","MARUBI/丸美"],"upgrade_benchmarks":["AOAZ","PROF.LING/凌博士","可复美"],"watch_tracks":["次抛精华","眼部护理","男士护肤"]},{"brand":"BUV","positioning":"高扩散高周转分发型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"50-100","goods_count":173,"video_count":7821,"live_count":"1.2w","creator_count":2969,"shop_count":53,"same_band_benchmarks":["KANS/韩束","Mistine/蜜丝婷","温博士"],"upgrade_benchmarks":["PROYA/珀莱雅","LANCÔME/兰蔻"],"watch_tracks":["防晒","彩妆/香水","唇部护理"]},{"brand":"效妆","positioning":"单品爆发功能型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"25w-50w","avg_price_band":"50-100","goods_count":65,"video_count":1787,"live_count":463,"creator_count":316,"shop_count":8,"same_band_benchmarks":["温博士","KANS/韩束"],"upgrade_benchmarks":["AOAZ","PROF.LING/凌博士","可复美"],"watch_tracks":["液态精华","次抛精华","眼部护理"]},{"brand":"温博士","positioning":"标准化护理放量型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"50-100","goods_count":138,"video_count":2388,"live_count":2977,"creator_count":1109,"shop_count":44,"same_band_benchmarks":["KANS/韩束","Mistine/蜜丝婷","Uriage/依泉"],"upgrade_benchmarks":["PETERSON\u0027S LAB/毕生之研","PROYA/珀莱雅"],"watch_tracks":["男士护肤","唇部护理","防晒"]}],"reference_brands":[{"brand":"CLARINS/娇韵诗","main_category":"个护家清","gmv_band":"1000w+","sales_band":"25w-50w","avg_price_band":"800-900"},{"brand":"LA MER/海蓝之谜","main_category":"个护家清","gmv_band":"1000w+","sales_band":"25w-50w","avg_price_band":"1600-1800"},{"brand":"Helena Rubinstein/赫莲娜","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"1000-1200"},{"brand":"PROF.LING/凌博士","main_category":"个护家清","gmv_band":"1000w+","sales_band":"25w-50w","avg_price_band":"200-300"},{"brand":"UNIFON/御泥坊","main_category":"个护家清","gmv_band":"1000w+","sales_band":"10w-25w","avg_price_band":"200-300"},{"brand":"PETERSON\u0027S LAB/毕生之研","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"100-200"},{"brand":"LANCÔME/兰蔻","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"300-400"},{"brand":"Uriage/依泉","main_category":"个护家清","gmv_band":"250w-500w","sales_band":"2.5w-5w","avg_price_band":"50-100"},{"brand":"AOAZ","main_category":"个护家清","gmv_band":"1000w+","sales_band":"10w-25w","avg_price_band":"200-300"},{"brand":"PROYA/珀莱雅","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"200-300"},{"brand":"KANS/韩束","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"50-100"},{"brand":"可复美","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"200-300"},{"brand":"MARUBI/丸美","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"100-200"},{"brand":"Mistine/蜜丝婷","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"50-100"}],"tracks":[{"track":"液态精华","gmv_band":"1000w+","avg_price_band":"300-400","brand_count":1639,"creator_count":7134,"live_count":"5.2w","video_count":2389,"priority":"S-","execution_focus":"夜间抗老修护精华"},{"track":"次抛精华","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":853,"creator_count":4714,"live_count":"1.8w","video_count":4460,"priority":"A+","execution_focus":"疗程型次抛抗老修护"},{"track":"面部护理套装","gmv_band":"1000w+","avg_price_band":"300-400","brand_count":1547,"creator_count":"1.8w","live_count":"8.6w","video_count":"3.9w","priority":"A","execution_focus":"高价值礼盒/双件套/三件套"},{"track":"眼部护理","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":1858,"creator_count":"1.9w","live_count":"8.1w","video_count":"4.5w","priority":"A-","execution_focus":"提亮淡纹修护眼部单品"},{"track":"男士护肤","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":574,"creator_count":4106,"live_count":"1.4w","video_count":6480,"priority":"A-","execution_focus":"男士修护焕亮精华线"},{"track":"唇部护理","gmv_band":"1000w+","avg_price_band":"10-50","brand_count":617,"creator_count":6563,"live_count":"1.8w","video_count":8450,"priority":"B+","execution_focus":"功能护理副线/组合加购"},{"track":"乳液/面霜","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":2810,"creator_count":"2.8w","live_count":"13.7w","video_count":"5.4w","priority":"B+","execution_focus":"配套精华的面霜/水乳承接线"},{"track":"彩妆/香水","gmv_band":"1000w+","avg_price_band":"50-100","brand_count":4146,"creator_count":"7.7w","live_count":"24.5w","video_count":"40.3w","priority":"B","execution_focus":"高热红海，不作为优先利润赛道"},{"track":"防晒","gmv_band":"1000w+","avg_price_band":"50-100","brand_count":1427,"creator_count":"3.2w","live_count":"11.7w","video_count":"6.2w","priority":"B","execution_focus":"高周转红海，适合渠道放量"}],"brand_strategy":{"report_date":"2026-06-08","recommendations":[{"brand":"KAZOO","core_positioning":"中高客单功能护理升级","recommended_tracks":[{"track":"次抛精华","priority":"high","why_now":"品牌带宽与客单结构更贴近次抛精华的100-200客单带，且赛道品牌数仅853。","product_shape":"7支/14支周期型次抛","content_angle":"抗老 + 修护 + 低负担周期管理"},{"track":"眼部护理","priority":"high","why_now":"眼部护理品牌数1858，仍有差异化形态空间，适合做眼油/眼膜/眼精华。","product_shape":"眼部精华 / 眼膜 / 笔状眼部护理","content_angle":"提亮淡纹 + 修护夜间护理"},{"track":"男士护肤","priority":"medium_high","why_now":"品牌数574，相对稀疏，适合向人群精细化扩展。","product_shape":"男士精华露 / 男士修护双件套","content_angle":"控油焕亮 + 熬夜修护"}],"avoid_tracks":["彩妆/香水","防晒"]},{"brand":"BUV","core_positioning":"高扩散高周转分发","recommended_tracks":[{"track":"防晒","priority":"high","why_now":"品牌打法更适合高分发、高曝光赛道，防晒三端都强且利于规模放量。","product_shape":"喷雾 / 乳状防晒 / 双支装","content_angle":"通勤高频使用 + 防水防汗 + 轻妆感"},{"track":"唇部护理","priority":"medium_high","why_now":"低客单适合拉新和加购，契合高周转分发逻辑。","product_shape":"唇膜 / 唇部精华液 / 润唇膏","content_angle":"淡唇纹 + 保湿 + 彩妆联动"},{"track":"彩妆/香水","priority":"medium","why_now":"虽为红海，但分发型品牌若供应链和内容稳定，仍可吃到大盘流量。","product_shape":"定妆喷雾 / 散粉 / 气垫等高周转单品","content_angle":"持妆控油 + 性价比"}],"avoid_tracks":["液态精华"]},{"brand":"效妆","core_positioning":"单品爆发功能打造","recommended_tracks":[{"track":"液态精华","priority":"high","why_now":"液态精华客单300-400，能承接功能型爆品的高溢价。","product_shape":"夜间液态精华 / 精华油 / 2.0礼盒","content_angle":"抗老 + 修护 + 功效解释"},{"track":"次抛精华","priority":"high","why_now":"赛道品牌数少，视频侧带动显著，适合打功能爆品。","product_shape":"次抛 / 胶原棒 / 周期装","content_angle":"疗程式修护抗老"},{"track":"眼部护理","priority":"medium_high","why_now":"易做功能化表达，和爆品策略契合。","product_shape":"眼油 / 眼膜 / 眼部精华","content_angle":"淡纹提亮 + 修护"}],"avoid_tracks":["彩妆/香水"]},{"brand":"温博士","core_positioning":"标准化护理放量优化","recommended_tracks":[{"track":"男士护肤","priority":"high","why_now":"品牌数574，适合标准化功能护理向男士人群延展。","product_shape":"精华露 / 洁面+精华双件套","content_angle":"男士焕亮 + 修护 + 易决策"},{"track":"唇部护理","priority":"medium_high","why_now":"低客单副线适合放量与加购。","product_shape":"润唇膏 / 唇膜 / 唇部精华","content_angle":"保湿淡纹 + 高复购"},{"track":"防晒","priority":"medium_high","why_now":"高周转赛道更贴近当前品牌放量逻辑。","product_shape":"防晒喷雾 / 乳状防晒 / 组合装","content_angle":"通勤防晒 + 性价比放量"}],"avoid_tracks":["液态精华"]}]},"channel_contribution":{"report_date":"2026-06-08","table_name":"渠道贡献专题表","track_channel_contribution":[{"track":"液态精华","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"5w-10w","product_card_sales_volume_band":"50w-100w","live_gmv_band":"1000w+","video_gmv_band":"250w-500w","product_card_gmv_band":"1000w+","judgment":"直播绝对主导，商品卡补量，视频侧偏弱"},{"track":"次抛精华","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"10w-25w","product_card_sales_volume_band":"50w-100w","live_gmv_band":"1000w+","video_gmv_band":"500w-1000w","product_card_gmv_band":"1000w+","judgment":"直播仍强，但视频带动作用明显高于液态精华"},{"track":"面部护理套装","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"100w+","product_card_sales_volume_band":"100w+","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"直播、视频、商品卡三端都强，说明货组与礼盒有全渠道适配性"},{"track":"眼部护理","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"100w+","product_card_sales_volume_band":"100w+","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"更适合做功能差异化表达，渠道结构本身不是主要问题"},{"track":"男士护肤","period":"2026年5月","live_sales_volume_band":"50w-100w","video_sales_volume_band":"25w-50w","product_card_sales_volume_band":"50w-100w","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"视频存在感高，适合通过单品精华和套组内容切入"},{"track":"唇部护理","period":"2026年5月","live_sales_volume_band":"25w-50w","video_sales_volume_band":"25w-50w","product_card_sales_volume_band":"25w-50w","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"低客单高分发，适合副线拉新和加购，不适合承担主利润"},{"track":"彩妆/香水","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"100w+","product_card_sales_volume_band":"100w+","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"渠道全开但竞争极强，更像红海大盘"},{"track":"防晒","period":"2026年5月","live_sales_volume_band":"100w+","video_sales_volume_band":"100w+","product_card_sales_volume_band":"100w+","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","judgment":"高周转红海，适合渠道放量，不适合优先做高利润立项"}],"brand_channel_contribution":[{"brand":"KAZOO","source":"BigDataVoice品牌搜索样本","live_gmv_band":"1000w+","video_gmv_band":"250w-500w","product_card_gmv_band":"500w-1000w","brand_self_operated_share":null,"creator_promotion_share":null,"judgment":"直播最强，视频与商品卡为辅助"},{"brand":"BUV","source":"BigDataVoice品牌搜索样本","live_gmv_band":"1000w+","video_gmv_band":"1000w+","product_card_gmv_band":"1000w+","brand_self_operated_share":null,"creator_promotion_share":null,"judgment":"三端都强，典型高扩散高周转结构"},{"brand":"效妆","source":"BigDataVoice品牌搜索样本","live_gmv_band":"1000w+","video_gmv_band":"250w-500w","product_card_gmv_band":"500w-1000w","brand_self_operated_share":null,"creator_promotion_share":null,"judgment":"直播带动为主，视频和商品卡为补充"},{"brand":"温博士","source":"BigDataVoice品牌搜索样本","live_gmv_band":"1000w+","video_gmv_band":"500w-1000w","product_card_gmv_band":"1000w+","brand_self_operated_share":null,"creator_promotion_share":null,"judgment":"直播与商品卡更强，视频次之"},{"brand":"C咖","source":"BigDataVoice品牌详情","live_gmv_band":"1000w+","video_gmv_band":"500w-1000w","product_card_gmv_band":"1000w+","brand_self_operated_share":"65.73%","creator_promotion_share":"8.25%","product_card_share":"26.02%","judgment":"品牌自营直播主导型品牌"}]},"price_bundle":{"report_date":"2026-06-08","table_name":"价格带与货组专题表","track_price_bundle":[{"track":"液态精华","avg_price_band":"300-400","price_level":"high","spec_signals":["75ml","精华油","2.0礼盒装"],"bundle_signals":["精华礼盒","精萃水套装","高浓度抗老精华"],"gift_signals":[],"top_products":["娇韵诗双萃","AOAZ萃光油","海蓝之谜精萃水套装"]},{"track":"次抛精华","avg_price_band":"100-200","price_level":"mid_high","spec_signals":["次抛","胶原棒","30ml*2","支数型疗程"],"bundle_signals":["14天/周期装","到手多支组合","次抛+附赠"],"gift_signals":["加赠胶原炮"],"top_products":["凌博士玻尿酸次抛","御泥坊胶原棒","雅顿粉胶"]},{"track":"面部护理套装","avg_price_band":"300-400","price_level":"high","spec_signals":["水乳霜","礼盒","大套装"],"bundle_signals":["黑绷带套装","红宝石礼盒","欧莱雅复颜套装"],"gift_signals":[],"top_products":["珀莱雅红宝石礼盒","赫莲娜黑绷带套装","韩束红蛮腰礼盒"]},{"track":"眼部护理","avg_price_band":"100-200","price_level":"mid_high","spec_signals":["眼油","眼膜","30g","胶原棒"],"bundle_signals":["眼油精华","眼膜密集护理","胶原棒联动"],"gift_signals":[],"top_products":["PDRN眼油","胶原蛋白眼膜","丸美小红笔眼霜"]},{"track":"男士护肤","avg_price_band":"100-200","price_level":"mid_high","spec_signals":["精华露","修护膏","洗面奶套组"],"bundle_signals":["精华+洁面","焕白套组"],"gift_signals":[],"top_products":["韩束男士焕白精华露","韩束男士套组","NBB修护膏"]},{"track":"唇部护理","avg_price_band":"10-50","price_level":"low","spec_signals":["唇膜","润唇膏","唇部精华液"],"bundle_signals":["夜间唇膜","淡唇纹护理","彩妆联动护唇"],"gift_signals":[],"top_products":["百雀羚唇膜","PLIFT唇部精华液","依泉润唇膏"]},{"track":"彩妆/香水","avg_price_band":"50-100","price_level":"mid","spec_signals":["100ml两瓶","气垫","散粉","口红"],"bundle_signals":["两瓶装","联名款","定妆喷雾"],"gift_signals":["买1送1"],"top_products":["蒂洛薇散粉","BABI定妆喷雾","兰蔻口红"]},{"track":"防晒","avg_price_band":"50-100","price_level":"mid","spec_signals":["喷雾","50ml","小金管","两瓶装"],"bundle_signals":["防晒喷雾","小金管/小紫管","防晒+美白"],"gift_signals":[],"top_products":["Mistine小粉帽","BABI防晒喷雾","欧莱雅小金管"]}]},"execution_tables":{"report_date":"2026-06-08","brand_competition_enhanced":[{"brand":"KAZOO","positioning":"中高客单功能护理升级型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"10w-25w","avg_price_band":"100-200","goods_count":109,"video_count":2015,"live_count":951,"creator_count":526,"shop_count":5,"benchmark_same_band":["PETERSON\u0027S LAB/毕生之研","MARUBI/丸美"],"benchmark_upgrade":["AOAZ","PROF.LING/凌博士","可复美"],"watch_tracks":["次抛精华","眼部护理","男士护肤"]},{"brand":"BUV","positioning":"高扩散高周转分发型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"100w+","avg_price_band":"50-100","goods_count":173,"video_count":7821,"live_count":"1.2w","creator_count":2969,"shop_count":53,"benchmark_same_band":["KANS/韩束","Mistine/蜜丝婷","温博士"],"benchmark_upgrade":["PROYA/珀莱雅","LANCÔME/兰蔻"],"watch_tracks":["防晒","彩妆/香水","唇部护理"]},{"brand":"效妆","positioning":"单品爆发功能型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"25w-50w","avg_price_band":"50-100","goods_count":65,"video_count":1787,"live_count":463,"creator_count":316,"shop_count":8,"benchmark_same_band":["温博士","KANS/韩束"],"benchmark_upgrade":["AOAZ","PROF.LING/凌博士","可复美"],"watch_tracks":["液态精华","次抛精华","眼部护理"]},{"brand":"温博士","positioning":"标准化护理放量型","main_category":"个护家清","gmv_band":"1000w+","sales_band":"50w-100w","avg_price_band":"50-100","goods_count":138,"video_count":2388,"live_count":2977,"creator_count":1109,"shop_count":44,"benchmark_same_band":["KANS/韩束","Mistine/蜜丝婷","Uriage/依泉"],"benchmark_upgrade":["PETERSON\u0027S LAB/毕生之研","PROYA/珀莱雅"],"watch_tracks":["男士护肤","唇部护理","防晒"]}],"track_execution_table":[{"track":"液态精华","path":"美妆护肤 \u003e 护肤品 \u003e 面部护肤 \u003e 液态精华","gmv_band":"1000w+","avg_price_band":"300-400","brand_count":1639,"creator_count":7134,"live_count":"5.2w","video_count":2389,"channel_hint":"直播主导，商品卡补量，视频偏弱","sales_volume_split":{"live":"100w+","video":"5w-10w","product_card":"50w-100w"},"gmv_split":{"live":"1000w+","video":"250w-500w","product_card":"1000w+"},"spec_and_bundle_signals":["75ml高容量精华","2.0礼盒装","精华油","套装化销售"],"top_products":["娇韵诗双萃","AOAZ萃光油","胜肽精华礼盒","海蓝之谜精萃水套装"],"execution_focus":"夜间抗老修护精华"},{"track":"次抛精华","path":"美妆护肤 \u003e 护肤品 \u003e 面部护肤 \u003e 次抛精华","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":853,"creator_count":4714,"live_count":"1.8w","video_count":4460,"channel_hint":"直播仍强，但视频带动更明显","sales_volume_split":{"live":"100w+","video":"10w-25w","product_card":"50w-100w"},"gmv_split":{"live":"1000w+","video":"500w-1000w","product_card":"1000w+"},"spec_and_bundle_signals":["次抛","胶原棒","14天/周期护理逻辑","小支数高频复购"],"top_products":["凌博士玻尿酸次抛","玻麦妍麦角硫因次抛","御泥坊胶原棒","雅顿粉胶"],"execution_focus":"疗程型次抛抗老修护"},{"track":"面部护理套装","path":"美妆护肤 \u003e 护肤品 \u003e 面部护肤 \u003e 面部护理套装","gmv_band":"1000w+","avg_price_band":"300-400","brand_count":1547,"creator_count":"1.8w","live_count":"8.6w","video_count":"3.9w","channel_hint":"直播、视频、商品卡三端都强，礼盒承接明显","sales_volume_split":{"live":"100w+","video":"100w+","product_card":"100w+"},"gmv_split":{"live":"1000w+","video":"1000w+","product_card":"1000w+"},"spec_and_bundle_signals":["礼盒","水乳霜套装","黑绷带套装","活动版/大促版"],"top_products":["珀莱雅红宝石礼盒","赫莲娜黑绷带套装","韩束红蛮腰礼盒","欧莱雅复颜套装"],"execution_focus":"高价值礼盒/双件套/三件套"},{"track":"眼部护理","path":"美妆护肤 \u003e 护肤品 \u003e 眼部护理","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":1858,"creator_count":"1.9w","live_count":"8.1w","video_count":"4.5w","channel_hint":"直播、视频、商品卡都能跑，但形态差异更关键","sales_volume_split":{"live":"100w+","video":"100w+","product_card":"100w+"},"gmv_split":{"live":"1000w+","video":"1000w+","product_card":"1000w+"},"spec_and_bundle_signals":["眼油","眼膜","笔状眼霜","胶原棒/套组联动"],"top_products":["PDRN眼油","胶原眼膜","丸美小红笔","可复美胶原棒"],"execution_focus":"提亮淡纹修护眼部单品"},{"track":"男士护肤","path":"美妆护肤 \u003e 护肤品 \u003e 男士护肤","gmv_band":"1000w+","avg_price_band":"100-200","brand_count":574,"creator_count":4106,"live_count":"1.4w","video_count":6480,"channel_hint":"视频存在感比直播更强，适合精华/套组表达","sales_volume_split":{"live":"50w-100w","video":"25w-50w","product_card":"50w-100w"},"gmv_split":{"live":"1000w+","video":"1000w+","product_card":"1000w+"},"spec_and_bundle_signals":["焕白精华露","洗面奶套组","修护膏","精华液"],"top_products":["韩束男士焕白精华露","韩束男士焕白套组","安敏优精华液","NBB修护膏"],"execution_focus":"男士修护焕亮精华线"},{"track":"唇部护理","path":"美妆护肤 \u003e 护肤品 \u003e 唇部护理","gmv_band":"1000w+","avg_price_band":"10-50","brand_count":617,"creator_count":6563,"live_count":"1.8w","video_count":8450,"channel_hint":"低客单、高内容曝光，适合拉新加购而非主利润承接","sales_volume_split":{"live":"25w-50w","video":"25w-50w","product_card":"25w-50w"},"gmv_split":{"live":"1000w+","video":"1000w+","product_card":"1000w+"},"spec_and_bundle_signals":["唇膜","润唇膏","唇部精华液","淡唇纹修护"],"top_products":["百雀羚唇膜唇膏","PLIFT唇部精华液","CIBIO\u00272唇膜","依泉润唇膏"],"execution_focus":"功能护理副线/组合加购"}]}};
+  </script>
+  <script>
+    const payload = window.DASHBOARD_DATA;
+
+    const priorityClass = (p) => {
+      if (String(p).startsWith('S')) return 'p-s';
+      if (String(p).startsWith('A')) return 'p-a';
+      return 'p-b';
+    };
+
+    const metaTags = document.getElementById('meta-tags');
+    [
+      `生成时间：${payload.meta.generated_at}`,
+      `状态：${payload.meta.status}`,
+      `来源：${payload.meta.source_scope.join(' / ')}`
+    ].forEach(text => {
+      const span = document.createElement('span');
+      span.className = 'tag';
+      span.textContent = text;
+      metaTags.appendChild(span);
+    });
+
+    const topKpisData = [
+      { label: '高价值赛道', value: '液态精华', sub: '客单 300-400 / 高客单利润型' },
+      { label: '成长赛道', value: '次抛精华', sub: '品牌数 853 / 内容效率强' },
+      { label: '人群机会', value: '男士护肤', sub: '品牌数 574 / 相对稀疏' },
+      { label: '红海预警', value: '彩妆香水', sub: '品牌数 4146 / 竞争极强' }
+    ];
+    const topKpis = document.getElementById('top-kpis');
+    topKpisData.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'kpi';
+      card.innerHTML = `<div class="label">${item.label}</div><div class="value">${item.value}</div><div class="sub">${item.sub}</div>`;
+      topKpis.appendChild(card);
+    });
+
+    const findings = [
+      { type: 'fact', title: '你的品牌已形成三种不同打法', detail: 'KAZOO 更偏中高客单功能护理，BUV 更偏分发放量，效妆更适合单品爆发，温博士更适合标准化护理优化。', source: 'BigDataVoice' },
+      { type: 'fact', title: '液态精华、次抛精华、套装仍是最高价值赛道', detail: '蝉妈妈多条赛道报告显示，这三类赛道同时具备高GMV、高客单或更强的货组承接能力。', source: '蝉妈妈' },
+      { type: 'judgment', title: '品牌策略需要按打法拆开', detail: '你的四个品牌不应共用一套商品企划策略，而应按客单、分发结构、爆品强度分别推进。', source: '综合判断' }
+    ];
+    const findingList = document.getElementById('finding-list');
+    findings.forEach(item => {
+      const div = document.createElement('div');
+      div.className = `finding ${item.type}`;
+      div.innerHTML = `<div class="title">${item.title}</div><div class="detail">${item.detail}</div><div class="source">${item.source}</div>`;
+      findingList.appendChild(div);
+    });
+
+    const brandBars = document.getElementById('brand-bars');
+    const maxCreators = Math.max(...payload.brand_competition_matrix.map(x => Number(x.creator_count) || 0));
+    payload.brand_competition_matrix.forEach(item => {
+      const width = 20 + ((Number(item.creator_count) || 0) / (maxCreators || 1)) * 80;
+      const row = document.createElement('div');
+      row.className = 'bar-row';
+      row.innerHTML = `
+        <div class="bar-label">${item.brand}</div>
+        <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+        <div class="bar-value">达人 ${item.creator_count}</div>
+      `;
+      brandBars.appendChild(row);
+    });
+
+    const brandMatrix = document.getElementById('brand-matrix');
+    payload.brand_competition_matrix.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'brand-card';
+      card.innerHTML = `
+        <div class="brand-head">
+          <div class="name">${item.brand}</div>
+          <div class="category">${item.main_category}</div>
+        </div>
+        <div class="mini-kpis">
+          <div class="mini-kpi"><div class="label">GMV</div><div class="value">${item.gmv_band}</div></div>
+          <div class="mini-kpi"><div class="label">客单</div><div class="value">${item.avg_price_band}</div></div>
+          <div class="mini-kpi"><div class="label">商品数</div><div class="value">${item.goods_count}</div></div>
+          <div class="mini-kpi"><div class="label">达人数</div><div class="value">${item.creator_count}</div></div>
+        </div>
+        <div class="detail">${item.positioning}</div>
+        <div class="watch">${item.watch_tracks.map(t => `<span>${t}</span>`).join('')}</div>
+      `;
+      brandMatrix.appendChild(card);
+    });
+
+    const brandEnhancedTable = document.getElementById('brand-enhanced-table');
+    payload.brand_competition_matrix.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.brand}</td>
+        <td>${item.positioning}</td>
+        <td>${item.gmv_band}</td>
+        <td>${item.avg_price_band}</td>
+        <td>${(item.same_band_benchmarks || []).join(' / ')}</td>
+        <td>${(item.upgrade_benchmarks || []).join(' / ')}</td>
+        <td>${(item.watch_tracks || []).join(' / ')}</td>
+      `;
+      brandEnhancedTable.appendChild(tr);
+    });
+
+    const trackTable = document.getElementById('track-table');
+    payload.tracks.forEach(track => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${track.track}</td>
+        <td>${track.gmv_band}</td>
+        <td>${track.avg_price_band}</td>
+        <td>${track.brand_count}</td>
+        <td>${track.video_count}</td>
+        <td>${track.live_count}</td>
+        <td><span class="priority ${priorityClass(track.priority)}">${track.priority}</span></td>
+        <td>${track.execution_focus}</td>
+      `;
+      trackTable.appendChild(tr);
+    });
+
+    const trackBars = document.getElementById('track-bars');
+    const minBrands = Math.min(...payload.tracks.map(t => Number(t.brand_count) || 0));
+    const maxBrands = Math.max(...payload.tracks.map(t => Number(t.brand_count) || 0));
+    payload.tracks
+      .slice()
+      .sort((a, b) => a.brand_count - b.brand_count)
+      .forEach(track => {
+        const normalized = 1 - (((Number(track.brand_count) || 0) - minBrands) / ((maxBrands - minBrands) || 1));
+        const width = 18 + normalized * 82;
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <div class="bar-label">${track.track}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+          <div class="bar-value">品牌 ${track.brand_count}</div>
+        `;
+        trackBars.appendChild(row);
+      });
+
+    const refTable = document.getElementById('ref-table');
+    payload.reference_brands.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.brand}</td>
+        <td>${item.main_category}</td>
+        <td>${item.gmv_band}</td>
+        <td>${item.sales_band || '-'}</td>
+        <td>${item.avg_price_band}</td>
+      `;
+      refTable.appendChild(tr);
+    });
+
+    const strategyTable = document.getElementById('strategy-table');
+    (payload.brand_strategy?.recommendations || []).forEach(brand => {
+      (brand.recommended_tracks || []).forEach(track => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${brand.brand}</td>
+          <td>${brand.core_positioning}</td>
+          <td>${track.track}</td>
+          <td>${track.product_shape}</td>
+          <td>${track.content_angle}</td>
+        `;
+        strategyTable.appendChild(tr);
+      });
+    });
+
+    const executionTable = document.getElementById('execution-table');
+    (payload.execution_tables?.track_execution_table || []).forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.track}</td>
+        <td>${item.channel_hint}</td>
+        <td>直播 ${item.sales_volume_split.live} / 视频 ${item.sales_volume_split.video} / 商品卡 ${item.sales_volume_split.product_card}</td>
+        <td>直播 ${item.gmv_split.live} / 视频 ${item.gmv_split.video} / 商品卡 ${item.gmv_split.product_card}</td>
+        <td>${(item.spec_and_bundle_signals || []).join(' / ')}</td>
+        <td>${item.execution_focus}</td>
+      `;
+      executionTable.appendChild(tr);
+    });
+
+    const channelTrackTable = document.getElementById('channel-track-table');
+    (payload.channel_contribution?.track_channel_contribution || []).forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${item.track}</td><td>${item.judgment}</td>`;
+      channelTrackTable.appendChild(tr);
+    });
+
+    const channelBrandTable = document.getElementById('channel-brand-table');
+    (payload.channel_contribution?.brand_channel_contribution || []).forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${item.brand}</td><td>${item.judgment}</td>`;
+      channelBrandTable.appendChild(tr);
+    });
+
+    const bundleTable = document.getElementById('bundle-table');
+    (payload.price_bundle?.track_price_bundle || []).forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.track}</td>
+        <td>${item.avg_price_band}</td>
+        <td>${(item.spec_signals || []).join(' / ')}</td>
+        <td>${(item.bundle_signals || []).join(' / ')}</td>
+        <td>${(item.top_products || []).join(' / ')}</td>
+      `;
+      bundleTable.appendChild(tr);
+    });
+
+    const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navButtons.forEach(b => b.classList.remove('active'));
+        screens.forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        const screen = document.getElementById(btn.dataset.screen);
+        if (screen) screen.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
