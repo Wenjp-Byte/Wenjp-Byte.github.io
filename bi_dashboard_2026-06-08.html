@@ -1,0 +1,802 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>化妆护肤市场机会洞察 BI 报表</title>
+  <style>
+    :root {
+      --bg: #f4efe6;
+      --panel: #fff9f0;
+      --card: #fffdf8;
+      --ink: #1f1a14;
+      --muted: #6e6457;
+      --line: #e6d8c4;
+      --accent: #b3541e;
+      --accent-2: #215a4f;
+      --accent-3: #c98b2a;
+      --danger: #b03c2f;
+      --success: #2c6b5f;
+      --shadow: 0 14px 40px rgba(70, 43, 13, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at top left, rgba(201, 139, 42, 0.18), transparent 28%),
+        radial-gradient(circle at top right, rgba(33, 90, 79, 0.14), transparent 24%),
+        linear-gradient(180deg, #f8f4ec 0%, var(--bg) 100%);
+    }
+
+    .page {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .nav-tabs {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin: 18px 0 6px;
+    }
+
+    .nav-btn {
+      border: 1px solid var(--line);
+      background: #fffdf8;
+      color: var(--ink);
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      background: var(--accent-2);
+      color: #fff;
+      border-color: var(--accent-2);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, rgba(33, 90, 79, 0.94), rgba(179, 84, 30, 0.9));
+      color: #fff;
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: auto -60px -80px auto;
+      width: 260px;
+      height: 260px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 50%;
+    }
+
+    .eyebrow {
+      font-size: 12px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      opacity: 0.8;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 34px;
+      line-height: 1.15;
+      font-weight: 800;
+    }
+
+    .hero p {
+      max-width: 980px;
+      margin: 14px 0 0;
+      font-size: 15px;
+      line-height: 1.7;
+      opacity: 0.95;
+    }
+
+    .meta {
+      margin-top: 18px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+      margin-top: 22px;
+    }
+
+    .screen {
+      display: none;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .panel h2 {
+      margin: 0 0 12px;
+      font-size: 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 10px;
+      font-size: 15px;
+      color: var(--muted);
+    }
+
+    .span-12 { grid-column: span 12; }
+    .span-8 { grid-column: span 8; }
+    .span-6 { grid-column: span 6; }
+    .span-4 { grid-column: span 4; }
+
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .kpi {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .kpi .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .kpi .value {
+      font-size: 28px;
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    .kpi .sub {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .finding-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .finding {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-left: 5px solid var(--accent);
+      border-radius: 16px;
+      padding: 14px 16px;
+    }
+
+    .finding.fact { border-left-color: var(--accent-2); }
+    .finding.judgment { border-left-color: var(--accent-3); }
+
+    .finding .title {
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .finding .detail {
+      font-size: 14px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+
+    .finding .source {
+      margin-top: 8px;
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 13px;
+    }
+
+    th, td {
+      text-align: left;
+      padding: 10px 8px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+
+    th {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .priority {
+      font-weight: 800;
+      border-radius: 999px;
+      display: inline-block;
+      padding: 4px 10px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .p-s { background: #874f11; }
+    .p-a { background: #1f6b5f; }
+    .p-b { background: #8a6f21; }
+
+    .bars {
+      display: grid;
+      gap: 12px;
+    }
+
+    .bar-row {
+      display: grid;
+      grid-template-columns: 160px 1fr 80px;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .bar-label {
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .bar-track {
+      height: 14px;
+      background: #efe5d7;
+      border-radius: 999px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-2), var(--accent));
+    }
+
+    .bar-value {
+      text-align: right;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .matrix {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .brand-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+
+    .brand-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: baseline;
+      margin-bottom: 10px;
+    }
+
+    .brand-head .name {
+      font-size: 18px;
+      font-weight: 800;
+    }
+
+    .brand-head .category {
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .mini-kpis {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .mini-kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 10px;
+    }
+
+    .mini-kpi .label {
+      font-size: 11px;
+      color: var(--muted);
+    }
+
+    .mini-kpi .value {
+      margin-top: 6px;
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .watch {
+      margin-top: 10px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .watch span {
+      background: #efe3d2;
+      color: #53381f;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .footer-note {
+      margin-top: 20px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 1200px) {
+      .span-8, .span-6, .span-4 { grid-column: span 12; }
+      .kpis { grid-template-columns: repeat(2, 1fr); }
+      .matrix { grid-template-columns: 1fr; }
+      .mini-kpis { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 720px) {
+      .page { padding: 16px; }
+      h1 { font-size: 26px; }
+      .kpis { grid-template-columns: 1fr; }
+      .bar-row { grid-template-columns: 1fr; }
+      .mini-kpis { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="hero">
+      <div class="eyebrow">Market Opportunity BI</div>
+      <h1>化妆护肤市场机会洞察 BI 报表</h1>
+      <p>本报表整合公开资料、蝉妈妈品类趋势报告、BigDataVoice品牌样本与品牌详情页结果，聚焦“高客单、相对不拥挤、适合立项”的细分方向，并把你当前运营品牌纳入竞争对比。</p>
+      <div class="meta">
+        <span class="tag">更新时间：2026-06-08</span>
+        <span class="tag">平台状态：部分实盘数据已接入</span>
+        <span class="tag">分析范围：美妆 / 护肤 / 个护家清</span>
+      </div>
+    </section>
+
+    <div class="grid">
+      <div class="nav-tabs span-12">
+        <button class="nav-btn active" data-screen="screen-brand">品牌竞争页</button>
+        <button class="nav-btn" data-screen="screen-track">赛道机会页</button>
+        <button class="nav-btn" data-screen="screen-exec">运营执行页</button>
+      </div>
+    </div>
+
+    <div id="screen-brand" class="screen active">
+      <div class="grid">
+      <section class="panel span-12">
+        <h2>管理层速览</h2>
+        <div class="kpis">
+          <div class="kpi">
+            <div class="label">优先赛道</div>
+            <div class="value">液态精华</div>
+            <div class="sub">高客单 `300-400` / GMV `1000w+`</div>
+          </div>
+          <div class="kpi">
+            <div class="label">成长赛道</div>
+            <div class="value">次抛精华</div>
+            <div class="sub">品牌数 `853` / 视频效率强</div>
+          </div>
+          <div class="kpi">
+            <div class="label">人群机会</div>
+            <div class="value">男士护肤</div>
+            <div class="sub">品牌数 `574` / 相对稀疏</div>
+          </div>
+          <div class="kpi">
+            <div class="label">红海预警</div>
+            <div class="value">彩妆香水</div>
+            <div class="sub">品牌数 `4146` / 达人 `7.7w`</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel span-6">
+        <h2>今日重点结论</h2>
+        <div class="finding-list">
+          <div class="finding fact">
+            <div class="title">液态精华与面部护理套装仍是高客单核心赛道</div>
+            <div class="detail">蝉妈妈显示这两个赛道在 `2026年5月` 均达到 `1000w+ GMV`，且客单稳定在 `300-400`。</div>
+            <div class="source">来源：蝉妈妈</div>
+          </div>
+          <div class="finding fact">
+            <div class="title">次抛精华具备内容型成长优势</div>
+            <div class="detail">品牌数仅 `853`，视频端 GMV 已达到 `500w-1000w`，明显适合内容打爆和周期装货组设计。</div>
+            <div class="source">来源：蝉妈妈</div>
+          </div>
+          <div class="finding judgment">
+            <div class="title">你的品牌更适合按不同打法拆开运营</div>
+            <div class="detail">KAZOO 更适合做中高客单功能护理升级，BUV 和温博士更偏大盘分发，效妆更适合单品爆发路线。</div>
+            <div class="source">来源：BigDataVoice + 综合判断</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel span-6">
+        <h2>机会赛道对比</h2>
+        <div class="bars" id="track-bars"></div>
+        <div class="footer-note">横条长度按“品牌数倒数映射的宽松度”近似展示，用于管理层快速判断拥挤度，不代表精确数学评分。</div>
+      </section>
+
+      <section class="panel span-12">
+        <h2>品牌竞争矩阵</h2>
+        <div class="matrix" id="brand-matrix"></div>
+      </section>
+
+      <section class="panel span-12">
+        <h2>品牌竞争增强版</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>品牌</th>
+              <th>定位</th>
+              <th>GMV</th>
+              <th>客单</th>
+              <th>同带宽对标</th>
+              <th>升级对标</th>
+              <th>重点盯盘赛道</th>
+            </tr>
+          </thead>
+          <tbody id="brand-enhanced-table"></tbody>
+        </table>
+      </section>
+      </div>
+    </div>
+
+    <div id="screen-track" class="screen">
+      <div class="grid">
+      <section class="panel span-8">
+        <h2>赛道矩阵</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>赛道</th>
+              <th>GMV</th>
+              <th>客单</th>
+              <th>品牌数</th>
+              <th>视频数</th>
+              <th>直播数</th>
+              <th>优先级</th>
+              <th>业务类型</th>
+            </tr>
+          </thead>
+          <tbody id="track-table"></tbody>
+        </table>
+      </section>
+
+      <section class="panel span-4">
+        <h2>参考品牌样本</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>品牌</th>
+              <th>主营</th>
+              <th>GMV</th>
+              <th>客单</th>
+            </tr>
+          </thead>
+          <tbody id="ref-table"></tbody>
+        </table>
+      </section>
+      </div>
+    </div>
+
+    <div id="screen-exec" class="screen">
+      <div class="grid">
+      <section class="panel span-12">
+        <h2>赛道运营执行表</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>赛道</th>
+              <th>渠道贡献提示</th>
+              <th>销量结构</th>
+              <th>GMV结构</th>
+              <th>规格/货组信号</th>
+              <th>执行焦点</th>
+            </tr>
+          </thead>
+          <tbody id="execution-table"></tbody>
+        </table>
+      </section>
+
+      <section class="panel span-12">
+        <h2>品牌商品策略建议</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>品牌</th>
+              <th>核心定位</th>
+              <th>推荐赛道</th>
+              <th>产品形态</th>
+              <th>内容方向</th>
+            </tr>
+          </thead>
+          <tbody id="strategy-table"></tbody>
+        </table>
+      </section>
+      </div>
+    </div>
+    </div>
+  </div>
+
+  <script>
+    const dataset = {
+      brandCompetition: [
+        { brand: 'KAZOO', main_category: '个护家清', gmv_band: '1000w+', sales_band: '10w-25w', avg_price_band: '100-200', goods_count: 109, video_count: 2015, live_count: 951, creator_count: 526, shop_count: 5, positioning: '中高客单功能护理升级型', tracks: ['次抛精华', '眼部护理', '男士护肤'] },
+        { brand: 'BUV', main_category: '个护家清', gmv_band: '1000w+', sales_band: '100w+', avg_price_band: '50-100', goods_count: 173, video_count: 7821, live_count: 12000, creator_count: 2969, shop_count: 53, positioning: '高扩散高周转分发型', tracks: ['防晒', '彩妆/香水', '唇部护理'] },
+        { brand: '效妆', main_category: '个护家清', gmv_band: '1000w+', sales_band: '25w-50w', avg_price_band: '50-100', goods_count: 65, video_count: 1787, live_count: 463, creator_count: 316, shop_count: 8, positioning: '单品爆发功能型', tracks: ['液态精华', '次抛精华', '眼部护理'] },
+        { brand: '温博士', main_category: '个护家清', gmv_band: '1000w+', sales_band: '50w-100w', avg_price_band: '50-100', goods_count: 138, video_count: 2388, live_count: 2977, creator_count: 1109, shop_count: 44, positioning: '标准化护理放量型', tracks: ['男士护肤', '唇部护理', '防晒'] }
+      ],
+      tracks: [
+        { track: '液态精华', gmv: '1000w+', avg: '300-400', brands: 1639, videos: 2389, lives: '5.2w', priority: 'S-', type: '高客单利润型' },
+        { track: '次抛精华', gmv: '1000w+', avg: '100-200', brands: 853, videos: 4460, lives: '1.8w', priority: 'A+', type: '高解释性成长型' },
+        { track: '面部护理套装', gmv: '1000w+', avg: '300-400', brands: 1547, videos: '3.9w', lives: '8.6w', priority: 'A', type: '高价值货组型' },
+        { track: '眼部护理', gmv: '1000w+', avg: '100-200', brands: 1858, videos: '4.5w', lives: '8.1w', priority: 'A-', type: '功能细分型' },
+        { track: '男士护肤', gmv: '1000w+', avg: '100-200', brands: 574, videos: 6480, lives: '1.4w', priority: 'A-', type: '人群切分型' },
+        { track: '唇部护理', gmv: '1000w+', avg: '10-50', brands: 617, videos: 8450, lives: '1.8w', priority: 'B+', type: '低客单功能副线' },
+        { track: '乳液/面霜', gmv: '1000w+', avg: '100-200', brands: 2810, videos: '5.4w', lives: '13.7w', priority: 'B+', type: '大盘高竞争型' },
+        { track: '彩妆/香水', gmv: '1000w+', avg: '50-100', brands: 4146, videos: '40.3w', lives: '24.5w', priority: 'B', type: '高热红海型' },
+        { track: '防晒', gmv: '1000w+', avg: '50-100', brands: 1427, videos: '6.2w', lives: '11.7w', priority: 'B', type: '高周转红海型' }
+      ],
+      reference: [
+        { brand: 'AOAZ', main: '个护家清', gmv: '1000w+', avg: '200-300' },
+        { brand: 'PROYA/珀莱雅', main: '个护家清', gmv: '1000w+', avg: '200-300' },
+        { brand: 'KANS/韩束', main: '个护家清', gmv: '1000w+', avg: '50-100' },
+        { brand: '可复美', main: '个护家清', gmv: '1000w+', avg: '200-300' },
+        { brand: 'MARUBI/丸美', main: '个护家清', gmv: '1000w+', avg: '100-200' },
+        { brand: 'Mistine/蜜丝婷', main: '个护家清', gmv: '1000w+', avg: '50-100' }
+      ],
+      judgments: [
+        { brand: 'KAZOO', judgment: '更接近中高客单个护护理型品牌，商品数和店铺数相对克制，适合向功能护肤化方向升级。', tracks: '次抛精华 / 眼部护理 / 男士护肤' },
+        { brand: 'BUV', judgment: '更接近大盘分发型个护品牌，视频/直播/商品卡三端都强，属于高扩散高周转打法。', tracks: '防晒 / 彩妆香水 / 唇部护理' },
+        { brand: '效妆', judgment: '商品数与店铺数较少，但已能做到1000w+ GMV，说明存在单品集中爆发特征，适合精细化打造功能型爆品。', tracks: '液态精华 / 次抛精华 / 眼部护理' },
+        { brand: '温博士', judgment: '处于中等规模个护赛道玩家，商品卡和直播都不弱，适合围绕标准化功能护理和渠道放量优化。', tracks: '男士护肤 / 唇部护理 / 防晒' }
+      ],
+      strategies: [
+        { brand: 'KAZOO', positioning: '中高客单功能护理升级', track: '次抛精华', shape: '7支/14支周期装', content: '抗老 + 修护 + 低负担周期管理' },
+        { brand: 'KAZOO', positioning: '中高客单功能护理升级', track: '眼部护理', shape: '眼精华 / 眼膜 / 笔状护理', content: '提亮淡纹 + 夜间修护' },
+        { brand: 'BUV', positioning: '高扩散高周转分发', track: '防晒', shape: '喷雾 / 双支装 / 乳状防晒', content: '通勤高频 + 防水防汗 + 性价比' },
+        { brand: 'BUV', positioning: '高扩散高周转分发', track: '唇部护理', shape: '唇膜 / 润唇膏 / 唇部精华', content: '淡唇纹 + 保湿 + 加购联动' },
+        { brand: '效妆', positioning: '单品爆发功能型', track: '液态精华', shape: '液态精华 / 精华油 / 礼盒', content: '抗老 + 修护 + 功效解释' },
+        { brand: '效妆', positioning: '单品爆发功能型', track: '次抛精华', shape: '次抛 / 胶原棒 / 周期装', content: '疗程式修护抗老' },
+        { brand: '温博士', positioning: '标准化护理放量优化', track: '男士护肤', shape: '精华露 / 洁面+精华双件套', content: '焕亮 + 修护 + 易决策' },
+        { brand: '温博士', positioning: '标准化护理放量优化', track: '防晒', shape: '喷雾 / 乳状防晒 / 组合装', content: '通勤防晒 + 高周转放量' }
+      ]
+    };
+
+    const priorityClass = (p) => {
+      if (p.startsWith('S')) return 'p-s';
+      if (p.startsWith('A')) return 'p-a';
+      return 'p-b';
+    };
+
+    const trackBars = document.getElementById('track-bars');
+    const minBrands = Math.min(...dataset.tracks.map(t => t.brands));
+    const maxBrands = Math.max(...dataset.tracks.map(t => t.brands));
+    dataset.tracks
+      .slice()
+      .sort((a, b) => a.brands - b.brands)
+      .forEach(track => {
+        const normalized = 1 - ((track.brands - minBrands) / (maxBrands - minBrands || 1));
+        const width = 18 + normalized * 82;
+        const row = document.createElement('div');
+        row.className = 'bar-row';
+        row.innerHTML = `
+          <div class="bar-label">${track.track}</div>
+          <div class="bar-track"><div class="bar-fill" style="width:${width}%"></div></div>
+          <div class="bar-value">品牌数 ${track.brands}</div>
+        `;
+        trackBars.appendChild(row);
+      });
+
+    const brandMatrix = document.getElementById('brand-matrix');
+    dataset.brandCompetition.forEach(item => {
+      const card = document.createElement('div');
+      card.className = 'brand-card';
+      card.innerHTML = `
+        <div class="brand-head">
+          <div class="name">${item.brand}</div>
+          <div class="category">${item.main_category}</div>
+        </div>
+        <div class="mini-kpis">
+          <div class="mini-kpi"><div class="label">GMV</div><div class="value">${item.gmv_band}</div></div>
+          <div class="mini-kpi"><div class="label">客单</div><div class="value">${item.avg_price_band}</div></div>
+          <div class="mini-kpi"><div class="label">商品数</div><div class="value">${item.goods_count}</div></div>
+          <div class="mini-kpi"><div class="label">达人数</div><div class="value">${item.creator_count}</div></div>
+        </div>
+        <div class="detail">${item.positioning}</div>
+        <div class="watch">${item.tracks.map(t => `<span>${t}</span>`).join('')}</div>
+      `;
+      brandMatrix.appendChild(card);
+    });
+
+    const trackTable = document.getElementById('track-table');
+    dataset.tracks.forEach(track => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${track.track}</td>
+        <td>${track.gmv}</td>
+        <td>${track.avg}</td>
+        <td>${track.brands}</td>
+        <td>${track.videos}</td>
+        <td>${track.lives}</td>
+        <td><span class="priority ${priorityClass(track.priority)}">${track.priority}</span></td>
+        <td>${track.type}</td>
+      `;
+      trackTable.appendChild(tr);
+    });
+
+    const refTable = document.getElementById('ref-table');
+    dataset.reference.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.brand}</td>
+        <td>${item.main}</td>
+        <td>${item.gmv}</td>
+        <td>${item.avg}</td>
+      `;
+      refTable.appendChild(tr);
+    });
+
+    const strategyTable = document.getElementById('strategy-table');
+    dataset.strategies.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.brand}</td>
+        <td>${item.positioning}</td>
+        <td>${item.track}</td>
+        <td>${item.shape}</td>
+        <td>${item.content}</td>
+      `;
+      strategyTable.appendChild(tr);
+    });
+
+    const brandEnhanced = [
+      { brand: 'KAZOO', positioning: '中高客单功能护理升级型', gmv: '1000w+', avg: '100-200', same: '毕生之研 / 丸美', upgrade: 'AOAZ / 凌博士 / 可复美', tracks: '次抛精华 / 眼部护理 / 男士护肤' },
+      { brand: 'BUV', positioning: '高扩散高周转分发型', gmv: '1000w+', avg: '50-100', same: '韩束 / Mistine / 温博士', upgrade: '珀莱雅 / 兰蔻', tracks: '防晒 / 彩妆香水 / 唇部护理' },
+      { brand: '效妆', positioning: '单品爆发功能型', gmv: '1000w+', avg: '50-100', same: '温博士 / 韩束', upgrade: 'AOAZ / 凌博士 / 可复美', tracks: '液态精华 / 次抛精华 / 眼部护理' },
+      { brand: '温博士', positioning: '标准化护理放量型', gmv: '1000w+', avg: '50-100', same: '韩束 / Mistine / 依泉', upgrade: '毕生之研 / 珀莱雅', tracks: '男士护肤 / 唇部护理 / 防晒' }
+    ];
+    const brandEnhancedTable = document.getElementById('brand-enhanced-table');
+    brandEnhanced.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.brand}</td>
+        <td>${item.positioning}</td>
+        <td>${item.gmv}</td>
+        <td>${item.avg}</td>
+        <td>${item.same}</td>
+        <td>${item.upgrade}</td>
+        <td>${item.tracks}</td>
+      `;
+      brandEnhancedTable.appendChild(tr);
+    });
+
+    const executionRows = [
+      {
+        track: '液态精华',
+        channel: '直播主导，商品卡补量，视频偏弱',
+        sales: '直播 100w+ / 视频 5w-10w / 商品卡 50w-100w',
+        gmv: '直播 1000w+ / 视频 250w-500w / 商品卡 1000w+',
+        spec: '75ml、高容量精华、2.0礼盒装、精华油、套装化',
+        focus: '夜间抗老修护精华'
+      },
+      {
+        track: '次抛精华',
+        channel: '直播仍强，但视频带动更明显',
+        sales: '直播 100w+ / 视频 10w-25w / 商品卡 50w-100w',
+        gmv: '直播 1000w+ / 视频 500w-1000w / 商品卡 1000w+',
+        spec: '次抛、胶原棒、14天周期、小支数高频复购',
+        focus: '疗程型次抛抗老修护'
+      },
+      {
+        track: '面部护理套装',
+        channel: '直播/视频/商品卡三端都强',
+        sales: '直播 100w+ / 视频 100w+ / 商品卡 100w+',
+        gmv: '直播 1000w+ / 视频 1000w+ / 商品卡 1000w+',
+        spec: '礼盒、水乳霜套装、黑绷带套装、活动版',
+        focus: '高价值礼盒/双件套/三件套'
+      },
+      {
+        track: '眼部护理',
+        channel: '形态差异比纯渠道更重要',
+        sales: '直播 100w+ / 视频 100w+ / 商品卡 100w+',
+        gmv: '直播 1000w+ / 视频 1000w+ / 商品卡 1000w+',
+        spec: '眼油、眼膜、笔状眼霜、胶原棒联动',
+        focus: '提亮淡纹修护眼部单品'
+      },
+      {
+        track: '男士护肤',
+        channel: '视频存在感更强，适合精华/套组',
+        sales: '直播 50w-100w / 视频 25w-50w / 商品卡 50w-100w',
+        gmv: '直播 1000w+ / 视频 1000w+ / 商品卡 1000w+',
+        spec: '焕白精华露、洗面奶套组、修护膏、精华液',
+        focus: '男士修护焕亮精华线'
+      },
+      {
+        track: '唇部护理',
+        channel: '低客单高曝光，适合拉新加购',
+        sales: '直播 25w-50w / 视频 25w-50w / 商品卡 25w-50w',
+        gmv: '直播 1000w+ / 视频 1000w+ / 商品卡 1000w+',
+        spec: '唇膜、润唇膏、唇部精华液、淡唇纹修护',
+        focus: '功能护理副线/组合加购'
+      }
+    ];
+    const executionTable = document.getElementById('execution-table');
+    executionRows.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${item.track}</td>
+        <td>${item.channel}</td>
+        <td>${item.sales}</td>
+        <td>${item.gmv}</td>
+        <td>${item.spec}</td>
+        <td>${item.focus}</td>
+      `;
+      executionTable.appendChild(tr);
+    });
+
+    const navButtons = Array.from(document.querySelectorAll('.nav-btn'));
+    const screens = Array.from(document.querySelectorAll('.screen'));
+    navButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        navButtons.forEach(b => b.classList.remove('active'));
+        screens.forEach(s => s.classList.remove('active'));
+        btn.classList.add('active');
+        const screen = document.getElementById(btn.dataset.screen);
+        if (screen) screen.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>
