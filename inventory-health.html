@@ -1412,7 +1412,7 @@ label:last-child {
     </div>
     <script>window.__INVENTORY_BI_DATA__ = {
   "meta": {
-    "runDate": "20260628_webtest4",
+    "runDate": "20260628_filterfix2",
     "asOfDate": "2026-06-27",
     "source": "Tianchi final clean inventory-health mart",
     "rules": [
@@ -1420,7 +1420,7 @@ label:last-child {
       "订单量取未入库库存",
       "排除沫檬、辅材、开品来源含跨境",
       "TOP SKU按库存及订单货值排序，20名后归入其他",
-      "近30天销量为0标记为近30天无销量，不直接判定高风险"
+      "近30天销量为0单独标记为近30天无销量"
     ]
   },
   "group": {
@@ -1669,8 +1669,7 @@ label:last-child {
     "货军师事业部",
     "梵尔事业部",
     "BUV事业部",
-    "KAZOO事业部",
-    "其他"
+    "KAZOO事业部"
   ],
   "brandsByDivision": {
     "货军师事业部": [
@@ -124256,7 +124255,7 @@ label:last-child {
   "pendingConfirmDetail": []
 };</script>
     <script>
-const EXCLUDED_DEFAULT_DIVISIONS = new Set(["商品二部", "仓库", "待确认"]);
+const EXCLUDED_DEFAULT_DIVISIONS = new Set(["商品二部", "仓库", "待确认", "其他"]);
 const EXCLUDED_DEFAULT_BRANDS = new Set(["待确认"]);
 
 const state = {
@@ -124390,7 +124389,7 @@ function summaryFromRows(rows) {
     normalValue: rows
       .filter((r) => r.isNew !== "是" && Number(r.turnoverDays || 0) <= 365 && Number(r.turnoverDays || 0) > 0)
       .reduce((acc, r) => acc + r.value, 0),
-    unknownTurnValue: rows.filter((r) => !r.turnoverDays).reduce((acc, r) => acc + r.value, 0),
+    unknownTurnValue: 0,
     zeroSalesValue: rows.filter((r) => Number(r.sales30Qty || 0) === 0).reduce((acc, r) => acc + r.value, 0),
     riskSkuCount,
     age0_90Value: sum(rows, "age0_30Value") + sum(rows, "age31_60Value") + sum(rows, "age61_90Value"),
@@ -124506,7 +124505,7 @@ function groupRows(rows, keyFn) {
 
 function renderMeta() {
   const { meta } = state.data;
-  el("runMeta").textContent = `数据日期 ${meta.asOfDate} · 默认不展示商品二部、仓库、待确认 · ${meta.rules.join(" · ")}`;
+  el("runMeta").textContent = `数据日期 ${meta.asOfDate} · 默认不展示商品二部、仓库、待确认、其他 · ${meta.rules.join(" · ")}`;
 }
 
 function checkboxItem(name, checked, type) {
@@ -124561,11 +124560,10 @@ function renderKpis() {
 }
 
 function groupSummaryCard(item, label, type) {
-  const normal = Math.max(item.totalValue - item.newValue - item.oldValue - item.unknownTurnValue, 0);
+  const normal = Math.max(item.totalValue - item.newValue - item.oldValue, 0);
   const structure = [
     ["新品", item.newValue, "var(--amber)"],
     ["正常库存", normal, "var(--teal)"],
-    ["周转待确认", item.unknownTurnValue, "var(--blue)"],
     ["周转大于1年", item.oldValue, "var(--red)"],
   ];
   const age = [
@@ -124688,7 +124686,6 @@ function renderStructure() {
     ["新品", s.newValue, "var(--amber)"],
     ["周转大于1年", s.oldValue, "var(--red)"],
     ["正常库存", s.normalValue, "var(--teal)"],
-    ["周转待确认", s.unknownTurnValue, "var(--blue)"],
   ];
   const max = Math.max(...items.map(([, v]) => Number(v || 0)), 1);
   el("structureBars").innerHTML = items
@@ -124952,7 +124949,7 @@ function renderActionPlans() {
 function tagClass(value) {
   const text = String(value || "");
   if (["高", "库龄老化", "低周转", "周转大于1年"].some((key) => text.includes(key))) return "tag-red";
-  if (["中", "近30天无销量", "高库存", "周转待确认"].some((key) => text.includes(key))) return "tag-yellow";
+  if (["中", "近30天无销量", "高库存"].some((key) => text.includes(key))) return "tag-yellow";
   if (["新品", "正常库存"].some((key) => text.includes(key))) return "tag-green";
   return "tag-blue";
 }
